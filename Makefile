@@ -48,7 +48,7 @@ pdf:
 		--variable=fontsize:12pt \
 		--variable=papersize:a4paper \
 		--variable=documentclass:report \
-		--pdf-engine=xelatex \
+		--pdf-engine=lualatex \
 		"$(INPUTDIR)"/*.md \
 		"$(INPUTDIR)/metadata.yml" \
 		--filter=pandoc-shortcaption \
@@ -68,18 +68,22 @@ tex:
 		--variable=fontsize:12pt \
 		--variable=papersize:a4paper \
 		--variable=documentclass:report \
-		--pdf-engine=xelatex \
+		--pdf-engine=lualatex \
 		"$(INPUTDIR)"/*.md \
 		"$(INPUTDIR)/metadata.yml" \
 		--filter=pandoc-shortcaption \
 		--filter=pandoc-xnos \
+		--biblatex \
 		--bibliography="$(BIBFILE)" \
 		--citeproc \
 		--csl="$(STYLEDIR)/ref_format.csl" \
 		--number-sections \
 		--verbose \
 		2>pandoc.tex.log
-
+# textopdf:
+	lualatex --output-dir="$(OUTPUTDIR)" "$(OUTPUTDIR)/thesis.tex"
+	biber "$(OUTPUTDIR)/thesis.bcf"
+	lualatex --output-dir="$(OUTPUTDIR)" "$(OUTPUTDIR)/thesis.tex"
 html:
 	pandoc  \
 		--output "$(OUTPUTDIR)/thesis.html" \
