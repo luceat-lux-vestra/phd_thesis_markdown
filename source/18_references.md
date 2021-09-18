@@ -1,5 +1,6 @@
 \footnotesize
-\singlespacing
+<!-- \singlespacing -->
+\linespread{1.0}\selectfont
 \setlength{\parindent}{0in}
 
 <!-- 

@@ -1,6 +1,7 @@
 \setcounter{page}{1}
 \pagenumbering{arabic}
-\doublespacing
+<!-- \doublespacing -->
+\linespread{1.63}\selectfont
 \setlength{\parindent}{0.1in}
 
 # Introduction, with a citation
@@ -11,7 +12,7 @@
 남산 위에 저 소나무 철갑을 두른 듯 바람서리 불변함은 우리 기상일세
 가을 하늘 공활한데 높고 구름 없이 밝은 달은 우리 가슴 일편단심일세
 이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세
-무궁화 삼천리 화려 강산 대한 사람 대한으로 길이 보전하세
+무궁화 삼천리 화려 강산 대한 사람 대한으로 길이 보전하세[^fn1]
 
 ```java
 public class Main {
@@ -35,7 +36,7 @@ public class Main {
   }
 }
 ```
-This is the introduction. Quisque finibus aliquet cursus. Integer in pellentesque tellus. Duis eu dignissim nulla, a porttitor enim. Quisque vehicula leo non ultrices finibus. Duis vehicula quis sem sit amet sollicitudin. Integer neque est, pharetra et auctor vel, iaculis interdum lectus.
+This is the introduction. Quisque finibus aliquet cursus. Integer in pellentesque tellus. Duis eu dignissim nulla, a porttitor enim. Quisque vehicula leo non ultrices finibus. Duis vehicula quis sem sit amet sollicitudin. Integer neque est, pharetra et auctor vel, iaculis interdum lectus.[^fn2]
 
 <!-- 
 To include a reference, add the citation key shown in the references.bib file.
@@ -44,6 +45,9 @@ To include a reference, add the citation key shown in the references.bib file.
 To include a citation to the text, just add the citation key shown in the references.bib file. The style of the citation is determined by the ref_format.csl file. For example, in The Living Sea you can find pictures of the Calypso [@Cousteau1963].
 
 In neque mauris, maximus at sapien a, iaculis dignissim justo. Aliquam erat volutpat. Praesent varius risus auctor est ultricies, sit amet consequat nisi laoreet. Suspendisse non est et mauris pharetra sagittis non porta justo. Praesent malesuada metus ut sapien sodales ornare.
+
+[^fn1]: test
+[^fn2]: test
 
 ## The middle bit
 
