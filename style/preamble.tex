@@ -37,11 +37,18 @@
 
 % FONTS
 \ifxetex
-\usepackage{mathspec}
-\usepackage{xltxtra,xunicode}
-\else
-\usepackage{fontspec}
+  \usepackage{mathspec}
+  \usepackage{xltxtra,xunicode}
+  \usepackage{xetexko}
 \fi
+\ifluatex
+  \usepackage{luatexko}
+\fi
+
+\ifx\ifxetex\ifluatex\else
+  \usepackage{fontspec}
+\fi
+
 \defaultfontfeatures{Mapping=tex-text} % converts LaTeX specials (``quotes'' --- dashes etc.) to unicode
 % \setromanfont[Scale=1.01,Ligatures={Common},Numbers={OldStyle}]{Palatino}
 % \setromanfont[Scale=1.01,Ligatures={Common},Numbers={OldStyle}]{Adobe Caslon Pro}
@@ -49,6 +56,24 @@
 % \setmonofont[Scale=0.9]{Monaco}
 %Following line controls size of figure legends
 % \setsansfont[Scale=1.2]{Optima Regular}
+
+\setmainhangulfont[Ligatures=Common,
+                   WordSpace=0.8,
+                   LetterSpace=1.0]{NanumMyeongjo}
+\setsanshangulfont{NanumGothic}
+\setmonohangulfont{D2Coding}
+
+\setmainfont[Ligatures=Common,
+             WordSpace=0.6,
+             LetterSpace=1.0]{NanumMyeongjo}
+\setsansfont[Ligatures=Common,
+             WordSpace=1.0,
+             LetterSpace=1.0]{NanumGothic}
+\setmonofont{Fira Code}
+\renewcommand{\familydefault}{\sfdefault}
+% https://tex.stackexchange.com/questions/49831/change-body-font-in-moderncv-without-affecting-the-other-fonts
+% https://tex.stackexchange.com/questions/324030/simple-way-to-format-section-titles
+
 
 % CODE BLOCKS
 \usepackage[utf8]{inputenc}
@@ -65,7 +90,7 @@
 \lstdefinestyle{javaCodeStyle}{
   language=Java,                         % the language of the code
   backgroundcolor=\color{backcolour},    % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
-  basicstyle=\fontsize{10}{8}\sffamily,
+  basicstyle=\fontsize{10}{8}\ttfamily,
   breakatwhitespace=false,
   breaklines=true,
   keywordstyle=\color{javapurple}\bfseries,

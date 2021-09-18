@@ -1,6 +1,7 @@
 <style>
 body {
-    font-family: Georgia;
+    /* font-family: Georgia; */
+    font-family: 나눔고딕, "NanumGothic", "맑은 고딕", "Malgun Gothic", "애플 SD 산돌고딕 Neo", "Apple SD Gothic Neo", Ngothic, sans-serif;
     max-width: 800px;
     margin: 0 auto;
     line-height: 30px;
@@ -11,7 +12,8 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: Arial;
+    /* font-family: Arial; */
+    font-family: "바탕체", "Times New Roman", Georgia, Verdana, "Geneva", Tahoma, serif;
 }
 
 h1 {
