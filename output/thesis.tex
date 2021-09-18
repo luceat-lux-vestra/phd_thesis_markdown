@@ -50,6 +50,8 @@
 \usepackage{microtype}
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
+\usepackage[backend=biber, backref=true, style=authoryear]{biblatex}
+\addbibresource{references.bib}
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -113,6 +115,7 @@
             citecolor=blue,
             urlcolor=blue,
             linkcolor=magenta,
+            linktoc=all,
             pdfborder={0 0 0}}
 \urlstyle{same}  % don't use monospace font for urls
 \setlength{\parindent}{0pt}
@@ -120,34 +123,17 @@
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \setcounter{secnumdepth}{5}
 
-% % \newlength{\cslhangindent}
-% \setlength{\cslhangindent}{1.5em}
-% \newenvironment{cslreferences}%
-%   {}%
-%   {\par}
 % 
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
-  % set entry spacing
-  \ifnum #2 > 0
-  \setlength{\parskip}{#2\baselineskip}
-  \fi
- }%
- {}
-\usepackage{calc}
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
-\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 
+\ifluatex
+  \directlua {   
+    pdf.setmajorversion(2)   
+    pdf.setminorversion(0) 
+  }
+\fi
+
+\usepackage{footnotebackref}
 
 % Table of contents formatting
 \renewcommand{\contentsname}{Table of Contents}
@@ -179,8 +165,19 @@
 % \setsansfont[Scale=1.1]{Verdana}
 
 % FONTS
-\usepackage{xunicode}
-\usepackage{xltxtra}
+\ifxetex
+  \usepackage{mathspec}
+  \usepackage{xltxtra,xunicode}
+  \usepackage{xetexko}
+\fi
+\ifluatex
+  \usepackage{luatexko}
+\fi
+
+\ifx\ifxetex\ifluatex\else
+  \usepackage{fontspec}
+\fi
+
 \defaultfontfeatures{Mapping=tex-text} % converts LaTeX specials (``quotes'' --- dashes etc.) to unicode
 % \setromanfont[Scale=1.01,Ligatures={Common},Numbers={OldStyle}]{Palatino}
 % \setromanfont[Scale=1.01,Ligatures={Common},Numbers={OldStyle}]{Adobe Caslon Pro}
@@ -188,6 +185,24 @@
 % \setmonofont[Scale=0.9]{Monaco}
 %Following line controls size of figure legends
 % \setsansfont[Scale=1.2]{Optima Regular}
+
+\setmainhangulfont[Ligatures=Common,
+                   WordSpace=0.8,
+                   LetterSpace=1.0]{NanumMyeongjo}
+\setsanshangulfont{NanumGothic}
+\setmonohangulfont{D2Coding}
+
+\setmainfont[Ligatures=Common,
+             WordSpace=0.6,
+             LetterSpace=1.0]{NanumMyeongjo}
+\setsansfont[Ligatures=Common,
+             WordSpace=1.0,
+             LetterSpace=1.0]{NanumGothic}
+\setmonofont{Fira Code}
+\renewcommand{\familydefault}{\sfdefault}
+% https://tex.stackexchange.com/questions/49831/change-body-font-in-moderncv-without-affecting-the-other-fonts
+% https://tex.stackexchange.com/questions/324030/simple-way-to-format-section-titles
+
 
 % CODE BLOCKS
 \usepackage[utf8]{inputenc}
@@ -204,7 +219,7 @@
 \lstdefinestyle{javaCodeStyle}{
   language=Java,                         % the language of the code
   backgroundcolor=\color{backcolour},    % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
-  basicstyle=\fontsize{10}{8}\sffamily,
+  basicstyle=\fontsize{10}{8}\ttfamily,
   breakatwhitespace=false,
   breaklines=true,
   keywordstyle=\color{javapurple}\bfseries,
@@ -247,10 +262,10 @@
 \usepackage{siunitx}
 
 % Adjust spacing between lines to 1.5
-\usepackage{setspace}
-% \onehalfspacing
-\doublespacing
-\raggedbottom
+% \usepackage{setspace}
+% % \onehalfspacing
+% \doublespacing
+% \raggedbottom
 
 % Set margins
 \usepackage[top=1.5in,bottom=1.5in,left=1.5in,right=1.4in]{geometry}
@@ -296,7 +311,8 @@
 \usepackage{cleveref}
 
 \begin{document}
-
+\pagenumbering{roman}
+\linespread{1.63}\selectfont
 
 \begin{titlepage}
     \begin{center}
@@ -349,6 +365,7 @@
 \end{titlepage}
 
 
+\pagenumbering{arabic}
 % This is where the converted markdown files will go 
 \vspace*{\fill}
 
@@ -398,6 +415,7 @@ varius, sed finibus turpis placerat.
 \tableofcontents
 
 \newpage
+
 \listoffigures
 
 \newpage
@@ -419,8 +437,8 @@ varius, sed finibus turpis placerat.
 
 \setcounter{page}{1}
 \pagenumbering{arabic}
-\doublespacing
-\setlength{\parindent}{0.5in}
+
+\setlength{\parindent}{0.1in}
 
 \hypertarget{introduction-with-a-citation}{%
 \chapter{Introduction, with a
@@ -429,16 +447,47 @@ citation}\label{introduction-with-a-citation}}
 \hypertarget{background}{%
 \section{Background}\label{background}}
 
+동해 물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세 남산
+위에 저 소나무 철갑을 두른 듯 바람서리 불변함은 우리 기상일세 가을 하늘
+공활한데 높고 구름 없이 밝은 달은 우리 가슴 일편단심일세 이 기상과 이
+맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세 무궁화 삼천리 화려
+강산 대한 사람 대한으로 길이 보전하세\footnote{test}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{public} \KeywordTok{class}\NormalTok{ Main }\OperatorTok{\{}
+
+  \KeywordTok{public} \DataTypeTok{static} \DataTypeTok{void} \FunctionTok{main}\OperatorTok{(}\BuiltInTok{String}\OperatorTok{[]}\NormalTok{ args}\OperatorTok{)} \OperatorTok{\{}
+
+    \DataTypeTok{int}\NormalTok{ num }\OperatorTok{=} \DecValTok{29}\OperatorTok{;}
+    \DataTypeTok{boolean}\NormalTok{ flag }\OperatorTok{=} \KeywordTok{false}\OperatorTok{;}
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ i }\OperatorTok{=} \DecValTok{2}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}=}\NormalTok{ num }\OperatorTok{/} \DecValTok{2}\OperatorTok{;} \OperatorTok{++}\NormalTok{i}\OperatorTok{)} \OperatorTok{\{}
+      \CommentTok{// 한글 condition for nonprime number}
+      \ControlFlowTok{if} \OperatorTok{(}\NormalTok{num }\OperatorTok{\%}\NormalTok{ i }\OperatorTok{==} \DecValTok{0}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{        flag }\OperatorTok{=} \KeywordTok{true}\OperatorTok{;}
+        \ControlFlowTok{break}\OperatorTok{;}
+      \OperatorTok{\}}
+    \OperatorTok{\}}
+
+    \ControlFlowTok{if} \OperatorTok{(!}\NormalTok{flag}\OperatorTok{)}
+      \BuiltInTok{System}\OperatorTok{.}\FunctionTok{out}\OperatorTok{.}\FunctionTok{println}\OperatorTok{(}\NormalTok{num }\OperatorTok{+} \StringTok{" is a prime number."}\OperatorTok{);}
+    \ControlFlowTok{else}
+      \BuiltInTok{System}\OperatorTok{.}\FunctionTok{out}\OperatorTok{.}\FunctionTok{println}\OperatorTok{(}\NormalTok{num }\OperatorTok{+} \StringTok{" is not a prime number."}\OperatorTok{);}
+  \OperatorTok{\}}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
 This is the introduction. Quisque finibus aliquet cursus. Integer in
 pellentesque tellus. Duis eu dignissim nulla, a porttitor enim. Quisque
 vehicula leo non ultrices finibus. Duis vehicula quis sem sit amet
 sollicitudin. Integer neque est, pharetra et auctor vel, iaculis
-interdum lectus.
+interdum lectus.\footnote{test}
 
 To include a citation to the text, just add the citation key shown in
 the references.bib file. The style of the citation is determined by the
 ref\_format.csl file. For example, in The Living Sea you can find
-pictures of the Calypso (Cousteau Jacques \& Dugan James 1963).
+pictures of the Calypso \autocite{Cousteau1963}.
 
 In neque mauris, maximus at sapien a, iaculis dignissim justo. Aliquam
 erat volutpat. Praesent varius risus auctor est ultricies, sit amet
@@ -774,165 +823,60 @@ sodales laoreet.
 
 \newpage
 
-\begin{longtable}[]{@{}lcccccc@{}}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1529}}
+  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0941}}
+  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1176}}
+  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1765}}
+  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1529}}
+  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1529}}
+  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1529}}@{}}
 \caption{Important data for various land masses.
 \label{tbl:random}}\tabularnewline
 \toprule
-\begin{minipage}[b]{0.12\columnwidth}\raggedright
-Landmass\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\centering
-\% stuff\strut
-\end{minipage} & \begin{minipage}[b]{0.10\columnwidth}\centering
-Number of Owls\strut
-\end{minipage} & \begin{minipage}[b]{0.14\columnwidth}\centering
-Dolphins per Capita\strut
-\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\centering
-How Many Foos\strut
-\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\centering
-How Many Bars\strut
-\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\centering
-Forbidden Float\strut
-\end{minipage}\tabularnewline
+\begin{minipage}[b]{\linewidth}\raggedright
+Landmass
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\% stuff
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Number of Owls
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Dolphins per Capita
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+How Many Foos
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+How Many Bars
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Forbidden Float
+\end{minipage} \\
 \midrule
 \endfirsthead
 \toprule
-\begin{minipage}[b]{0.12\columnwidth}\raggedright
-Landmass\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\centering
-\% stuff\strut
-\end{minipage} & \begin{minipage}[b]{0.10\columnwidth}\centering
-Number of Owls\strut
-\end{minipage} & \begin{minipage}[b]{0.14\columnwidth}\centering
-Dolphins per Capita\strut
-\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\centering
-How Many Foos\strut
-\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\centering
-How Many Bars\strut
-\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\centering
-Forbidden Float\strut
-\end{minipage}\tabularnewline
+\begin{minipage}[b]{\linewidth}\raggedright
+Landmass
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\% stuff
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Number of Owls
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Dolphins per Capita
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+How Many Foos
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+How Many Bars
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Forbidden Float
+\end{minipage} \\
 \midrule
 \endhead
-\begin{minipage}[t]{0.12\columnwidth}\raggedright
-North America\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-94\%\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering
-20,028\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-17,465\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-12,084\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-20,659\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-1.71\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\raggedright
-Central America\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-91\%\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering
-6564\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-6350\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-8,189\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-12,012\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-1.52\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\raggedright
-South America\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-86\%\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering
-3902\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-4127\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-5,205\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-6,565\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-1.28\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\raggedright
-Africa\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-84\%\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering
-2892\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-3175\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-3,862\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-4,248\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-1.1\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\raggedright
-Europe\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-92\%\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering
-20,964\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-17,465\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-15,303\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-24,203\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-1.58\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\raggedright
-Asia\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-87\%\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering
-6852\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-6350\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-8,255\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-11,688\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-1.47\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\raggedright
-Oceania\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-87\%\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering
-4044\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-4127\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-5,540\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-6,972\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-1.28\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\raggedright
-Antarctica\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-83\%\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering
-2964\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-3175\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-4,402\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-4,941\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-1.13\strut
-\end{minipage}\tabularnewline
+North America & 94\% & 20,028 & 17,465 & 12,084 & 20,659 & 1.71 \\
+Central America & 91\% & 6564 & 6350 & 8,189 & 12,012 & 1.52 \\
+South America & 86\% & 3902 & 4127 & 5,205 & 6,565 & 1.28 \\
+Africa & 84\% & 2892 & 3175 & 3,862 & 4,248 & 1.1 \\
+Europe & 92\% & 20,964 & 17,465 & 15,303 & 24,203 & 1.58 \\
+Asia & 87\% & 6852 & 6350 & 8,255 & 11,688 & 1.47 \\
+Oceania & 87\% & 4044 & 4127 & 5,540 & 6,972 & 1.28 \\
+Antarctica & 83\% & 2964 & 3175 & 4,402 & 4,941 & 1.13 \\
 \bottomrule
 \end{longtable}
 
@@ -1065,19 +1009,10 @@ non posuere enim, nec hendrerit lacus. Etiam lacinia facilisis tempor.
 Aenean dictum nunc id felis rhoncus aliquam.
 
 \footnotesize
-\singlespacing
+
+\linespread{1.0}\selectfont
 \setlength{\parindent}{0in}
 
-\hypertarget{references}{%
-\chapter*{References}\label{references}}
-\addcontentsline{toc}{chapter}{References}
-
-\hypertarget{refs}{}
-\begin{CSLReferences}{1}{0}
-\leavevmode\hypertarget{ref-Cousteau1963}{}%
-Cousteau Jacques \& Dugan James, 1963. \emph{{The Living Sea: by
-Jacques-Yves Cousteau}}, London: Hamish Hamilton.
-
-\end{CSLReferences}
+\printbibliography[title=References]
 
 \end{document}
