@@ -6,7 +6,7 @@
 
 # Introduction, with a citation
 
-## Background
+## 백그라운드 Background
 
 동해 물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세
 남산 위에 저 소나무 철갑을 두른 듯 바람서리 불변함은 우리 기상일세
