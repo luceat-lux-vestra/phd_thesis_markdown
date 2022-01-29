@@ -81,7 +81,7 @@ $if(natbib)$
 \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
 $endif$
 $if(biblatex)$
-\usepackage[backend=biber, backref=true, style=authoryear]{biblatex}
+\usepackage[backend=biber, backref=true, style=ieee]{biblatex}
 \addbibresource{references.bib}
 $if(biblio-files)$
 \bibliography{$biblio-files$}

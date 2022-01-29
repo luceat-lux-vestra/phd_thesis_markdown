@@ -41,6 +41,7 @@ install:
 endif
 
 pdf:
+	rm -rf "$(OUTPUTDIR)/thesis.pdf"
 	pandoc  \
 		--output "$(OUTPUTDIR)/thesis.pdf" \
 		--template="$(STYLEDIR)/template.tex" \
@@ -61,6 +62,7 @@ pdf:
 		2>pandoc.pdf.log
 
 tex:
+	rm -rf "$(OUTPUTDIR)/thesis.*"
 	pandoc  \
 		--output "$(OUTPUTDIR)/thesis.tex" \
 		--template="$(STYLEDIR)/template.tex" \
@@ -75,16 +77,20 @@ tex:
 		--filter=pandoc-xnos \
 		--biblatex \
 		--bibliography="$(BIBFILE)" \
-		--citeproc \
-		--csl="$(STYLEDIR)/ref_format.csl" \
 		--number-sections \
 		--verbose \
 		2>pandoc.tex.log
-# textopdf:
-	lualatex --output-dir="$(OUTPUTDIR)" "$(OUTPUTDIR)/thesis.tex"
-	biber "$(OUTPUTDIR)/thesis.bcf"
-	lualatex --output-dir="$(OUTPUTDIR)" "$(OUTPUTDIR)/thesis.tex"
+
+tex2pdf:
+	lualatex --output-dir="$(OUTPUTDIR)" "$(OUTPUTDIR)/thesis"
+	biber "$(OUTPUTDIR)/thesis"
+	lualatex --output-dir="$(OUTPUTDIR)" "$(OUTPUTDIR)/thesis"
+	lualatex --output-dir="$(OUTPUTDIR)" "$(OUTPUTDIR)/thesis"
+	biber "$(OUTPUTDIR)/thesis"
+	lualatex --output-dir="$(OUTPUTDIR)" "$(OUTPUTDIR)/thesis"
+
 html:
+	rm -rf "$(OUTPUTDIR)/thesis.html"
 	pandoc  \
 		--output "$(OUTPUTDIR)/thesis.html" \
 		--template="$(STYLEDIR)/template.html" \
@@ -105,6 +111,7 @@ html:
 	cp -r "$(INPUTDIR)/figures" "$(OUTPUTDIR)/source/figures"
 
 docx:
+	rm -rf "$(OUTPUTDIR)/thesis.docx"
 	pandoc  \
 		--output "$(OUTPUTDIR)/thesis.docx" \
 		--toc \
